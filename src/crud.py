@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from . import models, schemas
 
-# to get profile by id...
+# to get profile by id.
 def get_profile(db: Session, profile_id: int):
     return db.query(models.Profile).filter(models.Profile.id == profile_id).first()
 
@@ -13,18 +13,15 @@ def get_same_profile(db: Session, name: str, dob: str, status: str):
 
 
 # to get all the profiles...
-# def get_profiles(db: Session, skip: Optional[int] = 0, limit: Optional[int] = 100):
-#     return db.query(models.Profile).offset(skip).limit(limit).all()
-# OR simply...
 def get_profiles(db: Session):
     return db.query(models.Profile).all()
 
-
+# to get all paused profiles
 def get_paused_profiles(db: Session):
     return db.query(models.Profile).filter(models.Profile.status == "PAUSED").all()
 
 
-# to post a profile...
+# to post a profile on the database.
 def create_profile(db: Session, profile: schemas.ProfileCreate):
     db_profile = models.Profile(**profile.dict())
     db.add(db_profile)
@@ -33,7 +30,7 @@ def create_profile(db: Session, profile: schemas.ProfileCreate):
     return db_profile
 
 
-# to update status of profile
+# to swap the status of profile
 def update_status(db: Session, db_profile):
     # Update model class variable from requested fields
     if db_profile.status == "ACTIVE":
@@ -48,6 +45,7 @@ def update_status(db: Session, db_profile):
     return db_profile
 
 
+# to delete a profile
 def delete_profile(db: Session, db_profile):
     db.delete(db_profile)
     db.commit()

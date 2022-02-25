@@ -1,8 +1,8 @@
-from typing import List, Optional
+from typing import Optional
 from datetime import date
 from pydantic import BaseModel
 
-#comman attributes
+# Base class with comman attributes
 class ProfileBase(BaseModel):
     name: str
     dob: date
@@ -10,11 +10,14 @@ class ProfileBase(BaseModel):
 
 # additional attributes while posting a Profile
 class ProfileCreate(ProfileBase):
+    # no additional attributes required.
     pass
 
 # additional attributes in the database
 class Profile(ProfileBase):
+    # unique id to assigned to distinguish different profiles.
     id: int
+    # we can also add the current timestamp with the below line.
     # created: datetime = datetime.now()
 
     class Config:
@@ -40,3 +43,4 @@ class ProfileActivate(BaseModel):
 
     class Config:
         orm_mode = True
+        
